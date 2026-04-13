@@ -20,7 +20,6 @@ PopChoice collects movie preferences from each person in the group individually,
 | Vector Database | Supabase + pgvector |
 | Movie Posters | TMDB API |
 | Backend | Node.js + Express |
-| Deployment | Cloudflare Pages (frontend) + Railway (backend) |
 
 ---
 
