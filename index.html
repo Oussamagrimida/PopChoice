@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+    <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+        <title>PopChoice</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <script type="module" src="index.js"></script>
+    <div id="app">
+    
+      <!-- ══ SCREEN 1: START ══ -->
+      <div class="screen  " id="screen-start">
+        <div class="branding">
+          <img src="https://www.figma.com/api/mcp/asset/6070198b-ec29-494f-b26a-b5b57e78daea" alt="PopChoice popcorn icon">
+          <span class="branding-title">PopChoice</span>
+        </div>
+        <div class="inputs-wrap">
+          <input class="field-input" id="num-people" type="number" min="1" max="20" placeholder="How many people?" />
+          <input class="field-input" id="duration" type="text" placeholder="How much time do you have?" />
+        </div>
+        <button class="btn-primary" id="btn-start" style="margin-top:40px;">Start</button>
+      </div>
+    
+
+      <!-- ══ SCREEN 2: PER-PERSON QUESTIONS ══ -->
+      <div class="screen" id="screen-person">
+        <div class="branding">
+          <img src="https://www.figma.com/api/mcp/asset/382c83bb-7ce1-4909-a1fd-66c9437dead1" alt="PopChoice popcorn icon">
+          <span class="person-number" id="person-num">1</span>
+          <div class="progress-dots" id="progress-dots"></div>
+        </div>
+        <div class="questions-wrap">
+          <div class="field-group">
+            <div class="field-label">What's your favorite movie and why?</div>
+            <textarea class="field-input" id="p-fav-movie" rows="3" placeholder="e.g. Interstellar because it blew my mind…"></textarea>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Are you in the mood for something new or a classic?</div>
+            <div class="pills" id="p-pills-era">
+              <button class="pill" data-value="New">New</button>
+              <button class="pill" data-value="Classic">Classic</button>
+              <button class="pill" data-value="Either">Either</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field-label">What are you in the mood for?</div>
+            <div class="pills" id="p-pills-mood">
+              <button class="pill" data-value="Fun">Fun</button>
+              <button class="pill" data-value="Serious">Serious</button>
+              <button class="pill" data-value="Inspiring">Inspiring</button>
+              <button class="pill" data-value="Scary">Scary</button>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Which famous film person would you love to be stranded on an island with and why?</div>
+            <textarea class="field-input" id="p-island" rows="2" placeholder="e.g. Tom Hanks because he's resourceful and funny…"></textarea>
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-next-person">Next Person</button>
+      </div>
+    
+      <!-- ══ SCREEN 3: LOADING ══ -->
+      <div class="screen  " id="screen-loading">
+        <div class="branding">
+          <img class="popcorn-spin" style="font-size:80px;" src="https://www.figma.com/api/mcp/asset/382c83bb-7ce1-4909-a1fd-66c9437dead1" alt="PopChoice popcorn icon"></img>
+          <span class="branding-title">PopChoice</span>
+        </div>
+        <p class="loading-text" id="loading-text">Finding the perfect movie..</p>
+      </div>
+      <!-- ══ SCREEN 4: RESULT ══ -->
+        <div class="screen" id="screen-result">
+          <div class="result-movie-title" id="result-title"></div>
+          <img id="result-poster" src="" alt="Movie poster" />
+          <div class="result-description" id="result-desc"></div>
+          <button class="btn-primary" id="btn-result-action">Next Movie</button>
+        </div>
+    
+    </div>
+  </body>
+</html>

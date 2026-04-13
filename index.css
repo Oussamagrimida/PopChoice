@@ -1,0 +1,414 @@
+/* ── FONTS ─────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Roboto+Slab:wght@300;400;700&display=swap');
+
+/* ── RESET ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:               #000c36;
+  --card:             #3b4877;
+  --green:            #51e08a;
+  --green-dark:       #3bc470;
+  --text:             #ffffff;
+  --text-dim:         rgba(255,255,255,0.55);
+  --input-text:       #c8cfe8;
+  --pill-bg:          #2a3565;
+  --pill-active:      #51e08a;
+  --pill-active-text: #000c36;
+
+  /* Design frame = 393 × 852 */
+  --w: 393px;
+  --h: 852px;
+}
+
+/* ── PAGE ───────────────────────────────────────── */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #000820;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto Slab', serif;
+}
+
+/* ── APP SHELL ──────────────────────────────────── */
+#app {
+  width: var(--w);
+  height: var(--h);          /* FIXED — no min-height */
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;          /* clips every screen inside */
+  border-radius: 40px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+
+  /* subtle star dots */
+  background-image:
+    radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 10%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.20) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 45%, rgba(255,255,255,0.20) 0%, transparent 100%),
+    linear-gradient(var(--bg), var(--bg));
+}
+/* ── SCREENS ────────────────────────────────────── */
+/*
+  Every screen is a flex column that fills the full #app box.
+  It does NOT scroll — everything must fit in 393×852.
+  Each screen controls its own internal layout via flex.
+*/
+.screen {
+  position: absolute;
+  inset: 0;                  /* fill #app exactly */
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  overflow: hidden;          /* NO scroll on screens */
+}
+.screen.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ── BRANDING BLOCK ─────────────────────────────── */
+.branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+.branding img {
+  width: 90px;
+  height: 98px;
+  object-fit: contain;
+}
+.branding-title {
+  font-family: 'Carter One', cursive;
+  font-size: 42px;
+  color: var(--text);
+  margin-top: 4px;
+  line-height: 1;
+}
+
+/* person number badge */
+.person-number {
+  font-family: 'Carter One', cursive;
+  font-size: 48px;
+  color: var(--green);
+  line-height: 1;
+  margin-top: 4px;
+}
+
+/* ── INPUTS ─────────────────────────────────────── */
+.field-group {
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 400;
+  line-height: 1.35;
+}
+.field-input {
+  width: 100%;
+  background: var(--card);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--input-text);
+  outline: none;
+  resize: none;
+  line-height: 1.45;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.field-input:focus {
+  background: #4a5a8a;
+  box-shadow: 0 0 0 2px var(--green);
+}
+.field-input::placeholder { color: rgba(200,207,232,0.45); }
+
+/* ── PILLS ──────────────────────────────────────── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pill {
+  background: var(--pill-bg);
+  color: var(--text);
+  border: none;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+}
+.pill:hover { background: #3a4d8a; }
+.pill.selected {
+  background: var(--pill-active);
+  color: var(--pill-active-text);
+  font-weight: 700;
+}
+.pill:active { transform: scale(0.96); }
+
+/* ── PRIMARY BUTTON ─────────────────────────────── */
+.btn-primary {
+  width: 325px;
+  height: 64px;              /* slightly reduced from 71 to buy space */
+  background: var(--green);
+  border: none;
+  border-radius: 10px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--bg);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(81,224,138,0.3);
+  flex-shrink: 0;
+}
+.btn-primary:hover {
+  background: var(--green-dark);
+  box-shadow: 0 6px 28px rgba(81,224,138,0.45);
+}
+.btn-primary:active  { transform: scale(0.97); }
+.btn-primary:disabled {
+  background: #2a3565;
+  color: #5a6899;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ══════════════════════════════════════════════════
+   SCREEN 1 — START
+   Layout: logo block centered high, 2 inputs, button
+   Total budget: 852px
+   ══════════════════════════════════════════════════ */
+#screen-start {
+  padding: 0 34px;
+  gap: 0;
+}
+#screen-start .branding {
+  margin-top: 148px;         /* logo sits ~148px from top */
+  margin-bottom: 32px;
+}
+#screen-start .inputs-wrap {
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 0;
+}
+#screen-start .field-input {
+  height: 56px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 300;
+}
+#screen-start .btn-primary {
+  margin-top: auto;          /* pushes button to bottom */
+  margin-bottom: 44px;
+}
+
+/* ══ SCREEN 3 — PER-PERSON ══ */
+#screen-person {
+  padding: 0;
+  justify-content: flex-start;
+}
+#screen-person .branding {
+  margin-top: 30px;
+  margin-bottom: 0;
+}
+#screen-person .branding img {
+  width: 68px;
+  height: 74px;
+}
+#screen-person .questions-wrap {
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;        /* tighter gap between questions */
+  flex: 0;          /* ← KEY: don't stretch */
+  margin-top: 50px;
+  overflow: visible;
+}
+#screen-person textarea.field-input { height: 50px; }
+#screen-person .field-group { margin-bottom: 0; }
+#screen-person .btn-primary {
+  margin-top: auto;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+
+/* ══════════════════════════════════════════════════
+   SCREEN 4 — LOADING
+   Centered vertically, animated text
+   ══════════════════════════════════════════════════ */
+#screen-loading {
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+#screen-loading .branding {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* replace emoji with img in HTML — see note below */
+.popcorn-anim {
+  width: 90px;
+  height: 98px;
+  object-fit: contain;
+  animation: rock 1.8s ease-in-out infinite;
+}
+@keyframes rock {
+  0%,100% { transform: rotate(-8deg); }
+  50%      { transform: rotate( 8deg); }
+}
+.loading-text {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-dim);
+  text-align: center;
+  width: 280px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
+
+/* ══ RESULT SCREEN ══ */
+#screen-result {
+  padding: 0 34px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  gap: 0;
+}
+
+.result-movie-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  width: 100%;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+#result-poster {
+  width: 75%;
+  aspect-ratio: 2/3;       /* standard movie poster ratio */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+  margin-bottom: 14px;
+}
+
+.result-description {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.5;
+  text-align: center;
+  width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-bottom: 12px;
+}
+
+/* Next Movie — green, only shows when not last */
+#screen-result .btn-primary {
+  margin-top: auto;
+  margin-bottom: 36px;
+  flex-shrink: 0;
+}
+
+/* Go Again — always visible, outline style */
+.btn-secondary {
+  width: 325px;
+  height: 52px;
+  background: transparent;
+  border: 2px solid var(--card);
+  border-radius: 10px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover {
+  border-color: var(--green);
+  color: var(--text);
+}
+
+/* ── ERROR TOAST ─────────────────────────────────── */
+.error-msg {
+  background: rgba(255,80,80,0.15);
+  border: 1px solid rgba(255,80,80,0.4);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #ff8a8a;
+  font-size: 13px;
+  width: 325px;
+  text-align: center;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+.btn-secondary {
+  width: 325px;
+  height: 52px;
+  background: transparent;
+  border: 2px solid var(--card);
+  border-radius: 10px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dim);
+  cursor: pointer;
+  margin-bottom: 30px;
+  flex-shrink: 0;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover {
+  border-color: var(--green);
+  color: var(--text);
+}
+/* ── RESPONSIVE: real phone ──────────────────────── */
+@media (max-width: 430px) {
+  :root { --w: 100vw; --h: 100dvh; }
+  #app  { border-radius: 0; }
+  html, body { align-items: flex-start; }
+}
+
+/* ── RESPONSIVE: short laptop screens ───────────── */
+@media (max-height: 860px) {
+  :root { --h: 100dvh; }
+  #app  {
+    height: 100dvh;
+    border-radius: 0;
+  }
+  html, body { align-items: flex-start; }
+}
